@@ -1,0 +1,22 @@
+<!-- src/main/resources/templates/book-detail.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Book Detail</title>
+</head>
+<body>
+<h1 th:text="${book.title}"></h1>
+<div>
+    <p>Author: <span th:text="${book.author}"></span></p>
+    <p>ISBN: <span th:text="${book.isbn}"></span></p>
+    <p>Published Year: <span th:text="${book.publishedYear}"></span></p>
+    <h3>Copies:</h3>
+    <ul>
+        <li th:each="copy : ${book.copies}"
+            th:text="'Copy ID: ' + ${copy.id} + ' - Available: ' + ${copy.available}">
+        </li>
+    </ul>
+</div>
+<a href="/view/books">Back to Books</a>
+</body>
+</html>
