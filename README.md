@@ -56,8 +56,8 @@ Maps port 3306 to host machine
 
 3. Clone Repository
 
-git clone <repository-url>
-cd <repository-directory>
+git clone https://github.com/jaros51/Assesment2.git
+cd Assessment2
 
 4. Run Application
  Build and run using Maven:
