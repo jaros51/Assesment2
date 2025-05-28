@@ -7,6 +7,7 @@ import sk.wm.zadanie.zadanie2.DAO.BookCopyEntity;
 import sk.wm.zadanie.zadanie2.DAO.BookEntity;
 import sk.wm.zadanie.zadanie2.DTO.BookCopy;
 import sk.wm.zadanie.zadanie2.DTO.BookEntityExt;
+import sk.wm.zadanie.zadanie2.Exceptions.InvalidIsbnException;
 import sk.wm.zadanie.zadanie2.Service.BookService;
 
 import java.security.InvalidAlgorithmParameterException;
@@ -34,7 +35,7 @@ public class BookController {
         try {
             BookEntity bookAdded = this.bookService.createBook(book);
             return ResponseEntity.ok(bookAdded);
-        } catch (IllegalArgumentException e) {
+        } catch (InvalidIsbnException e) {
             //throw new IllegalArgumentException("Invalid ISBN format: " + e.getMessage());
             return ResponseEntity.badRequest().body("Invalid ISBN format: " + e.getMessage());
         }

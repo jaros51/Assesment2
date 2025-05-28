@@ -6,6 +6,7 @@ import sk.wm.zadanie.zadanie2.DAO.BookCopyEntity;
 import sk.wm.zadanie.zadanie2.DAO.BookEntity;
 import sk.wm.zadanie.zadanie2.DTO.BookCopy;
 import sk.wm.zadanie.zadanie2.DTO.BookEntityExt;
+import sk.wm.zadanie.zadanie2.Exceptions.InvalidIsbnException;
 import sk.wm.zadanie.zadanie2.Repository.BookCopyRepository;
 import sk.wm.zadanie.zadanie2.Repository.BookRepository;
 import java.util.*;
@@ -49,16 +50,15 @@ public class BookService {
         return bookExt; // or throw an exception
     }
 
-    public BookEntity createBook (BookEntity bookEntity) {
-        // Logic to create a book
-        try {
-            // This will trigger setIsbn validation
-            bookEntity.setIsbn(bookEntity.getIsbn());
-            return this.bookRepository.save(bookEntity);
-        } catch (DataIntegrityViolationException e) {
-            // Handle other exceptions, such as database errors
-            throw new RuntimeException("Error saving book: " + e.getMessage());
+    public BookEntity createBook (BookEntity bookEntity) throws InvalidIsbnException, DataIntegrityViolationException {
+
+        if (!bookEntity.getIsbn().matches("\\d{9}[\\dX]|\\d{13}")) {
+            throw new InvalidIsbnException("Invalid ISBN format");
         }
+
+        // Logic to create a book
+        bookEntity.setIsbn(bookEntity.getIsbn());
+        return this.bookRepository.save(bookEntity);
     }
 
     public BookEntity updateBook (BookEntity bookEntity, Long id) {

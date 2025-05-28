@@ -1,7 +1,6 @@
 package sk.wm.zadanie.zadanie2.DAO;
 
 import jakarta.persistence.*;
-import sk.wm.zadanie.zadanie2.Exceptions.InvalidIsbnException;
 
 @Entity
 @Table(name="book")
@@ -52,12 +51,6 @@ public class BookEntity {
     }
 
     public void setIsbn(String isbn) {
-
-        // check if ISBN is correct
-        if (!isbn.matches("\\d{9}[\\dX]|\\d{13}")) {
-            throw new InvalidIsbnException("Invalid ISBN format");
-        }
-
         this.isbn = isbn;
     }
 
