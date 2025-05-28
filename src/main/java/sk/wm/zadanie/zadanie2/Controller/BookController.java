@@ -11,8 +11,6 @@ import sk.wm.zadanie.zadanie2.DTO.BookEntityExt;
 import sk.wm.zadanie.zadanie2.DTO.ErrorMessage;
 import sk.wm.zadanie.zadanie2.Exceptions.InvalidIsbnException;
 import sk.wm.zadanie.zadanie2.Service.BookService;
-
-import java.security.InvalidAlgorithmParameterException;
 import java.util.List;
 
 @RestController
@@ -37,10 +35,7 @@ public class BookController {
         try {
             BookEntity bookAdded = this.bookService.createBook(book);
             return ResponseEntity.ok(bookAdded);
-        } catch (InvalidIsbnException e) {
-            return ResponseEntity.badRequest().body(new ErrorMessage(e.getMessage()));
-        } catch (DataIntegrityViolationException e) {
-            // Handle the case where the book title/isbn already exists
+        } catch (InvalidIsbnException | DataIntegrityViolationException e) {
             return ResponseEntity.badRequest().body(new ErrorMessage(e.getMessage()));
         } catch (Exception e) {
             // Handle other exceptions
@@ -61,9 +56,18 @@ public class BookController {
     }
 
     @PutMapping(value = "/{id}")
-    ResponseEntity<BookEntity> updateBook(@PathVariable Long id, @RequestBody BookEntity book) {
-        BookEntity updatedBook = this.bookService.updateBook(book, id);
-        return ResponseEntity.ok(updatedBook);
+    ResponseEntity<Object> updateBook(@PathVariable Long id, @RequestBody BookEntity book) {
+        try {
+            BookEntity updatedBook = this.bookService.updateBook(book, id);
+            return ResponseEntity.ok(updatedBook);
+        } catch (InvalidIsbnException | DataIntegrityViolationException e) {
+            return ResponseEntity.badRequest().body(new ErrorMessage(e.getMessage()));
+        } catch (Exception e) {
+            // Handle other exceptions
+            return ResponseEntity.status(500).body(new ErrorMessage("An error occurred while updating the book."));
+        }
+
+
     }
 
     @DeleteMapping(value = "/{id}")

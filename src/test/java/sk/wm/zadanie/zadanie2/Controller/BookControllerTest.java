@@ -80,8 +80,7 @@ class BookControllerTest {
 
         // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        //assertTrue(response.getBody().toString().contains("Invalid ISBN format"));
-        assertEquals(response.getBody().toString(),("Invalid ISBN format"));
+        assertTrue(response.getBody().toString().contains("Invalid ISBN format"));
     }
 
     @Test

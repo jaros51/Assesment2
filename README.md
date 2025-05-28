@@ -1,34 +1,70 @@
-# Knižničný systém (Zadanie 2)
+# Library Management System (Assignment 2)
 
-Táto aplikácia predstavuje manažment knižničného systému postavený na Spring Boot, ktorý umožňuje správu kníh a ich výtlačkov.
+A Spring Boot-based library management system that enables the management of books and their copies.
 
-## Popis projektu
+## Project Description
 
-Aplikácia je postavená ako REST API, ktoré umožňuje:
-- Správu kníh (pridávanie, aktualizácia, mazanie, získavanie)
-- Správu výtlačkov kníh
-- Vyhľadávanie podľa rôznych kritérií
+The application is built as a REST API that allows:
+- Book management (create, update, delete, retrieve)
+- Book copy management
+- Various search criteria
 
-## Technológie
+## Technologies
 
-Projekt používa nasledujúce technológie:
+The project uses the following technologies:
 - Java 21
 - Spring Boot 3.5.0
 - Spring Data JPA
 - Spring MVC
-- Flyway pre migrácie databázy
-- MySQL (produkčná DB) / H2 (vývojová DB)
+- Flyway for database migrations
+- MySQL (production DB) / H2 (development DB)
 - Lombok
-- MapStruct a ModelMapper pre mapovanie objektov
+- MapStruct and ModelMapper for object mapping
 
-## Požiadavky pre spustenie
+## Requirements
 
-Pre spustenie aplikácie potrebujete:
-- JDK 21
-- Maven 3.6+ 
-- MySQL server (pre produkčné prostredie)
+To run the application you need:
+- JDK 21 or higher
+- Maven 3.6+
+- Docker (for MySQL database)
 
-## Inštalácia a spustenie
+## Installation and Setup
 
-### Klónovanie repozitára
+### 1. Java Installation
 
+Ensure you have Java 21 or higher installed:
+```bash
+java -version
+```
+If Java is not installed or version is below 21, download and install from Oracle's website.
+
+
+
+### 2. MySQL Setup with Docker
+
+
+Run MySQL using Docker:
+```bash
+docker run --name mysql-library -e MYSQL_ROOT_PASSWORD=secret -e MYSQL_DATABASE=zadanieDb -p 3306:3306 -d mysql:latest
+```
+
+This command:
+Creates a MySQL container named 'mysql-library'
+Sets root password to 'secret'
+Creates database 'zadanieDb'
+Maps port 3306 to host machine
+
+3. Clone Repository
+
+git clone <repository-url>
+cd <repository-directory>
+
+4. Run Application
+ Build and run using Maven:
+```bash
+mvn clean install
+mvn spring-boot:run
+```
+The application will be available at http://localhost:8080
+
+Fast web lookup is here: http://localhost:8080/view/books

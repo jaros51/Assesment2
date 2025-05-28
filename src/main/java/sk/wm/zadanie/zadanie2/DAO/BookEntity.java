@@ -20,10 +20,10 @@ public class BookEntity {
     @Column(name="author", nullable=false)
     private String author;
 
-    @Column(name="isbn",nullable=false) ///  TODO ISBN format validation
+    @Column(name="isbn",nullable=false)
     private String isbn;
 
-    @Column(name="published_year",nullable=false) ///  TODO Validation of year
+    @Column(name="published_year",nullable=false)
     private Integer publishedYear;
 
 }

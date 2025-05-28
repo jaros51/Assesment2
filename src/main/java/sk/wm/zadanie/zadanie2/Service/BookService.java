@@ -54,7 +54,12 @@ public class BookService {
         return this.bookRepository.save(bookEntity);
     }
 
-    public BookEntity updateBook (BookEntity bookEntity, Long id) {
+    public BookEntity updateBook (BookEntity bookEntity, Long id) throws InvalidIsbnException, DataIntegrityViolationException {
+        // Validate ISBN format
+        if (!bookEntity.getIsbn().matches("\\d{9}[\\dX]|\\d{13}")) {
+            throw new InvalidIsbnException("Invalid ISBN format");
+        }
+
         // Logic to update a book
         BookEntity existingBook = this.bookRepository.findById(id).orElse(null);
         if (existingBook != null) {
