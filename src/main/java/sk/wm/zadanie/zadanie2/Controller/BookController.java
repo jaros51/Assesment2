@@ -2,6 +2,8 @@ package sk.wm.zadanie.zadanie2.Controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sk.wm.zadanie.zadanie2.DAO.BookCopyEntity;
@@ -26,6 +28,18 @@ public class BookController {
     @GetMapping
     ResponseEntity<List<BookEntity>>getBooks() {
         List <BookEntity> books = bookService.getBooks();
+        return  ResponseEntity.ok(books);
+    }
+
+    @Operation(summary = "Get all books sorted and paginated")
+    @GetMapping(value = "/pageable")
+    ResponseEntity<Page<BookEntity>>getBooksSrt(@RequestParam(defaultValue = "0") int page,
+                                             @RequestParam(defaultValue = "10") int size,
+                                             @RequestParam(defaultValue = "id") String sortBy,
+                                             @RequestParam(defaultValue = "asc") String sortDir) {
+        Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ?
+                Sort.Direction.DESC : Sort.Direction.ASC;
+        Page<BookEntity> books = bookService.getBooks(page, size, sortBy, direction);
         return  ResponseEntity.ok(books);
     }
 

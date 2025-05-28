@@ -68,3 +68,5 @@ mvn spring-boot:run
 The application will be available at http://localhost:8080
 
 Fast web lookup is here: http://localhost:8080/view/books
+
+Pageable book list is here: http://localhost:8080/api/books/pageable?page=2&size=2

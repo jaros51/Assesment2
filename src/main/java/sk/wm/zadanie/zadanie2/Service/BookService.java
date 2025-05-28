@@ -1,6 +1,10 @@
 package sk.wm.zadanie.zadanie2.Service;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import sk.wm.zadanie.zadanie2.DAO.BookCopyEntity;
 import sk.wm.zadanie.zadanie2.DAO.BookEntity;
@@ -24,6 +28,11 @@ public class BookService {
 
     public List<BookEntity> getBooks() {
         return this.bookRepository.findAll();
+    }
+
+    public Page<BookEntity> getBooks(int page, int size, String sortBy, Sort.Direction direction) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
+        return this.bookRepository.findAll(pageable);
     }
 
     public BookEntityExt getBookById(long id) throws IllegalArgumentException{
