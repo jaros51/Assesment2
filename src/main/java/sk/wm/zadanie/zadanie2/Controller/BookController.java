@@ -1,12 +1,14 @@
 package sk.wm.zadanie.zadanie2.Controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sk.wm.zadanie.zadanie2.DAO.BookCopyEntity;
 import sk.wm.zadanie.zadanie2.DAO.BookEntity;
 import sk.wm.zadanie.zadanie2.DTO.BookCopy;
 import sk.wm.zadanie.zadanie2.DTO.BookEntityExt;
+import sk.wm.zadanie.zadanie2.DTO.ErrorMessage;
 import sk.wm.zadanie.zadanie2.Exceptions.InvalidIsbnException;
 import sk.wm.zadanie.zadanie2.Service.BookService;
 
@@ -36,8 +38,13 @@ public class BookController {
             BookEntity bookAdded = this.bookService.createBook(book);
             return ResponseEntity.ok(bookAdded);
         } catch (InvalidIsbnException e) {
-            //throw new IllegalArgumentException("Invalid ISBN format: " + e.getMessage());
-            return ResponseEntity.badRequest().body("Invalid ISBN format: " + e.getMessage());
+            return ResponseEntity.badRequest().body(new ErrorMessage(e.getMessage()));
+        } catch (DataIntegrityViolationException e) {
+            // Handle the case where the book title/isbn already exists
+            return ResponseEntity.badRequest().body(new ErrorMessage(e.getMessage()));
+        } catch (Exception e) {
+            // Handle other exceptions
+            return ResponseEntity.status(500).body(new ErrorMessage("An error occurred while creating the book."));
         }
     }
 

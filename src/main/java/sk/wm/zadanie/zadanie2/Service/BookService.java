@@ -26,12 +26,6 @@ public class BookService {
         return this.bookRepository.findAll();
     }
 
-    /***
-     * Method to get book by id
-     * @param id
-     * @return
-     * @throws IllegalArgumentException
-     */
     public BookEntityExt getBookById(long id) throws IllegalArgumentException{
 
         BookEntity book = this.bookRepository.findById(id).orElse(null);
@@ -51,13 +45,12 @@ public class BookService {
     }
 
     public BookEntity createBook (BookEntity bookEntity) throws InvalidIsbnException, DataIntegrityViolationException {
-
+        // Validate ISBN format
         if (!bookEntity.getIsbn().matches("\\d{9}[\\dX]|\\d{13}")) {
             throw new InvalidIsbnException("Invalid ISBN format");
         }
 
         // Logic to create a book
-        bookEntity.setIsbn(bookEntity.getIsbn());
         return this.bookRepository.save(bookEntity);
     }
 
@@ -112,8 +105,7 @@ public class BookService {
         bookCopyEntity.setAvailable(true); // Default to available
 
         try {
-            BookCopyEntity newCopy = bookCopyRepository.save(bookCopyEntity);
-            return newCopy;
+            return bookCopyRepository.save(bookCopyEntity);
         } catch (DataIntegrityViolationException e) {
             throw new RuntimeException("Error saving book copy: " + e.getMessage());
         }
@@ -122,7 +114,6 @@ public class BookService {
     public BookCopyEntity updateBookCopy(Long id, BookCopyEntity bookCopyEntity) {
 
             BookCopyEntity existingBookCopy = this.bookCopyRepository.findById(id).orElse(null);
-
             if (bookCopyEntity == null || existingBookCopy == null) {
                 throw new IllegalArgumentException("Book copy or existing book copy not found");
             }

@@ -11,6 +11,7 @@ import sk.wm.zadanie.zadanie2.DAO.BookCopyEntity;
 import sk.wm.zadanie.zadanie2.DAO.BookEntity;
 import sk.wm.zadanie.zadanie2.DTO.BookCopy;
 import sk.wm.zadanie.zadanie2.DTO.BookEntityExt;
+import sk.wm.zadanie.zadanie2.Exceptions.InvalidIsbnException;
 import sk.wm.zadanie.zadanie2.Service.BookService;
 
 import java.util.Arrays;
@@ -72,14 +73,15 @@ class BookControllerTest {
         // Arrange
         BookEntity book = new BookEntity();
         when(bookService.createBook(any(BookEntity.class)))
-                .thenThrow(new IllegalArgumentException("Invalid ISBN"));
+                .thenThrow(new InvalidIsbnException("Invalid ISBN format"));
 
         // Act
         ResponseEntity<Object> response = bookController.createBook(book);
 
         // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertTrue(response.getBody().toString().contains("Invalid ISBN"));
+        //assertTrue(response.getBody().toString().contains("Invalid ISBN format"));
+        assertEquals(response.getBody().toString(),("Invalid ISBN format"));
     }
 
     @Test

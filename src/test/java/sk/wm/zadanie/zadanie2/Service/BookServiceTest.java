@@ -73,7 +73,7 @@ class BookServiceTest {
         // Assert
         assertNotNull(result);
         assertEquals(book.getId(), result.getId());
-//        assertEquals(book.opies());
+        assertEquals(book.getTitle(), result.getTitle());
     }
 
     @Test
