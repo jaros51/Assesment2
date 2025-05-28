@@ -55,9 +55,10 @@ Creates database 'zadanieDb'
 Maps port 3306 to host machine
 
 3. Clone Repository
-
+```bash
 git clone https://github.com/jaros51/Assesment2.git
 cd Assessment2
+```
 
 4. Run Application
  Build and run using Maven:
@@ -65,8 +66,18 @@ cd Assessment2
 mvn clean install
 mvn spring-boot:run
 ```
-The application will be available at http://localhost:8080
+The REST application will be available at http://localhost:8080
 
 Fast web lookup is here: http://localhost:8080/view/books
 
+Swagger is here: http://localhost:8080/swagger-ui/index.html
+
 Pageable book list is here: http://localhost:8080/api/books/pageable?page=2&size=2
+
+Example usage:
+Get first page with 10 items: GET /api/books/pageable
+
+Get second page with 20 items: GET /api/books/pageable?page=1&size=20
+
+Sort by title descending: GET /api/books/pageable?sortBy=title&sortDir=desc
+

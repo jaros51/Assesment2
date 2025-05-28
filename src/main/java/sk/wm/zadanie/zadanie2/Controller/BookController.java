@@ -69,6 +69,7 @@ public class BookController {
         return  ResponseEntity.ok(book);
     }
 
+    @Operation(summary = "Update book by ID")
     @PutMapping(value = "/{id}")
     ResponseEntity<Object> updateBook(@PathVariable Long id, @RequestBody BookEntity book) {
         try {
@@ -84,12 +85,14 @@ public class BookController {
 
     }
 
+    @Operation(summary = "Deleting book by ID")
     @DeleteMapping(value = "/{id}")
     ResponseEntity<Void> deleteBook(@PathVariable Long id) {
         this.bookService.deleteBook(id);
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Get book copies")
     @GetMapping(value = "/{id}/copies")
     ResponseEntity<List<BookCopy>> getBookCopies(@PathVariable Long id) {
         List<BookCopy> bookCopies = this.bookService.getBookCopies(id);
@@ -99,6 +102,7 @@ public class BookController {
         return ResponseEntity.ok(bookCopies);
     }
 
+    @Operation(summary = "Create book copies")
     @PostMapping(value = "/{id}/copies")
     ResponseEntity<BookCopyEntity> addBookCopy(@PathVariable Long id) {
         try {
@@ -109,6 +113,7 @@ public class BookController {
         }
     }
 
+    @Operation(summary = "Update availability within book copy")
     @PutMapping(value = "/{id}/copies/{copyId}")
     ResponseEntity<BookCopyEntity> updateBookCopy(@PathVariable Long id, @PathVariable Long copyId, @RequestBody BookCopyEntity bookCopy) {
         try {
